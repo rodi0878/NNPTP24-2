@@ -17,8 +17,11 @@ import static org.junit.jupiter.api.Assertions.*;
  * @author Roman
  */
 public class CryptoFileTest {
-    
+
+    private File file;
+
     public CryptoFileTest() {
+        file = new File("file.enc");
     }
     
     @BeforeAll
@@ -57,11 +60,16 @@ public class CryptoFileTest {
     @Test
     public void testWriteFile() {
         System.out.println("writeFile");
-        File file = null;
-        String password = "";
-        String cnt = "";
-        //CryptoFile.writeFile(file, password, cnt);
-        // TODO review the generated test code and remove the default call to fail.
+        String password = "password";
+        String cnt = "Some content";
+        CryptoFile.writeFile(file, password, cnt);
+        try {
+            CryptoFile.writeFile(file, password, cnt);
+            assertTrue(file.exists());
+            assertTrue(file.length() > 0);
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
-    
 }

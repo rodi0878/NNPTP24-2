@@ -25,7 +25,7 @@ public class JSONTest {
         List<Password> passwords = new ArrayList<>();
         passwords.add(new Password(1, "password123"));
         String result = json.toJson(passwords);
-        assertEquals("[{\"id\":1,\"password\":\"password123\"}]", result, "Expected JSON for a single password without parameters.");
+        assertEquals("[{id:1,password:\"password123\"}]", result, "Expected JSON for a single password without parameters.");
     }
     @Test
     public void testToJsonMultiplePasswordsWithParameters() {
@@ -41,8 +41,8 @@ public class JSONTest {
         passwords.add(new Password(2, "password456", parameters2));
 
         String result = json.toJson(passwords);
-        assertEquals("[{\"id\":1,\"password\":\"password123\",\"parameters\":{\"title\":\"Title\"}},"
-                        + "{\"id\":2,\"password\":\"password456\",\"parameters\":{\"expiration-datetime\":\"2024-11-10T23:50\",\"website\":\"https://www.upce.cz/\"}}]",
+        assertEquals("[{id:1,password:\"password123\",parameters:{title:\"Title\"}},"
+                        + "{id:2,password:\"password456\",parameters:{expiration-datetime:\"2024-11-10T23:50\",website:\"https://www.upce.cz/\"}}]",
                 result, "Expected JSON for multiple passwords with parameters.");
     }
     @Test

@@ -14,31 +14,33 @@ import java.util.HashMap;
  * @author Roman
  */
 public class JsonConverter {
-    
-    
-    public String toJson(List<Password> passwords)  {
-        String output = "[";
-        for (Password password : passwords) {
-            if (!output.isEmpty() && !output.equals("["))
-                output += ",";
-            output += "{";
-            output += "\"id\":" + password.id() + ",";
-            output += "\"password\":\"" + password.password()+"\"";
+
+    public String toJson(List<Password> passwords) {
+        StringBuilder output = new StringBuilder("[");
+        for (int i = 0; i < passwords.size(); i++) {
+            if (i > 0) output.append(",");
+
+            Password password = passwords.get(i);
+            output.append("{")
+                    .append("id:").append(password.id()).append(",")
+                    .append("password:\"").append(password.password()).append("\"");
+
             HashMap<String, Parameter> parameters = password.parameters();
             if (parameters != null && !parameters.isEmpty()) {
-                output += ",\"parameters\":{";
+                output.append(",parameters:{");
+                int count = 0;
                 for (String key : parameters.keySet()) {
-                    Parameter parameter = parameters.get(key);
-                    output += "\"" + key + "\":" + parameter.toJson() + ",";
+                    if (count > 0) output.append(",");
+                    output.append(key).append(":").append(parameters.get(key).toJson());
+                    count++;
                 }
-                output = output.substring(0, output.length() - 1);
-                output += "}";
+                output.append("}");
             }
-            output += "}";
+            output.append("}");
         }
-        output += "]";
-        
-        return output;
+        output.append("]");
+
+        return output.toString();
     }
 
     public List<Password> fromJson(String json) {
