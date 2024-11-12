@@ -39,17 +39,21 @@ public class CryptoFile {
     
     public static String readFile(File file, String password) {
         FileInputStream fis = null;
+        String result = null;
+        
         try {
             fis = new FileInputStream(file);
-            Cipher c = initializeCipher(password, Cipher.DECRYPT_MODE);
+            Cipher cipher  = initializeCipher(password, Cipher.DECRYPT_MODE);
             CipherInputStream cis = new CipherInputStream(fis, c);
             
-            DataInputStream dis = new DataInputStream(cis);
-            String r = dis.readUTF();
-            dis.close();
-            c.doFinal();
+            try (DataInputStream dis = new DataInputStream(cis)) {
+                result = dis.readUTF();
+            } catch (IOException ex) {
+                Logger.getLogger(CryptoFile.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            cipher.doFinal();
             
-            return r;        
+            return result;        
         } catch (NoSuchAlgorithmException | NoSuchPaddingException | IOException | InvalidKeyException |
                  IllegalBlockSizeException | BadPaddingException ex) {
             Logger.getLogger(CryptoFile.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,7 +65,7 @@ public class CryptoFile {
             }
         }
         
-        return null;
+        return result;
     }
     
     public static void writeFile(File file, String password, String cnt) {
