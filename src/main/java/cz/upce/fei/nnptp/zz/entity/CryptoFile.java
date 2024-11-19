@@ -6,8 +6,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.BadPaddingException;
@@ -24,10 +26,11 @@ import javax.crypto.spec.SecretKeySpec;
  * @author Roman
  */
 public class CryptoFile {
-    
+    private static final int DES_KEY_LENGTH = 8;
     private static Cipher initializeCipher(String password, int mode) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
+        byte[] keyBytes = Arrays.copyOf(password.getBytes(StandardCharsets.UTF_8), DES_KEY_LENGTH);
+        SecretKey secretKey = new SecretKeySpec(keyBytes, "DES");
         Cipher cipher = Cipher.getInstance("DES/ECB/PKCS5Padding");
-        SecretKey secretKey = new SecretKeySpec(password.getBytes(), "DES");
         cipher.init(mode, secretKey);
         return cipher;
     }
