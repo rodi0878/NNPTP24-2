@@ -26,7 +26,9 @@ import javax.crypto.spec.SecretKeySpec;
  * @author Roman
  */
 public class CryptoFile {
+
     private static final int DES_KEY_LENGTH = 8;
+    
     private static Cipher initializeCipher(String password, int mode) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
         byte[] keyBytes = Arrays.copyOf(password.getBytes(StandardCharsets.UTF_8), DES_KEY_LENGTH);
         SecretKey secretKey = new SecretKeySpec(keyBytes, "DES");
