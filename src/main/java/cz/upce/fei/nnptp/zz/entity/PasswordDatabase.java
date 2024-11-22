@@ -9,8 +9,8 @@ import java.util.List;
  * @author Roman
  */
 public class PasswordDatabase {
-    private File file;
-    private String password;
+    private final File file;
+    private final String password;
     
     private List<Password> passwords;
 
