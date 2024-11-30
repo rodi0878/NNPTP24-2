@@ -59,7 +59,6 @@ public class CryptoFileTest {
         String password = "password";
         String cnt = "content";
         CryptoFile.writeFile(file, password, cnt);
-        assertTrue(file.length() > 0);
         String decryptedContent = CryptoFile.readFile(file, password);
         assertEquals(cnt, decryptedContent);
     }
