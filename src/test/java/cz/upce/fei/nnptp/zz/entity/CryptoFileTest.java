@@ -9,30 +9,48 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
 /**
  *
  * @author Roman
  */
 public class CryptoFileTest {
 
-    
     public CryptoFileTest() {
     }
-    
+
     @BeforeAll
     public static void setUpClass() {
     }
-    
+
     @AfterAll
     public static void tearDownClass() {
     }
-    
+
     @BeforeEach
     public void setUp() {
     }
-    
+
     @AfterEach
     public void tearDown() {
+    }
+
+    /**
+     * Test of readFile method, of class CryptoFile.
+     *
+     * @throws java.io.IOException
+     */
+    @Test
+    public void testReadEmptyFile() throws IOException {
+        File emptyFile = File.createTempFile("emptyFile", ".txt");
+        emptyFile.deleteOnExit();
+
+        String password = "password";
+        String expResult = null;
+
+        String result = CryptoFile.readFile(emptyFile, password);
+
+        assertEquals(expResult, result, "Reading an empty file should return null");
     }
 
     /**
@@ -54,7 +72,7 @@ public class CryptoFileTest {
      */
     @Test
     public void testWriteFile() throws IOException {
-        File file = File.createTempFile("testFile",".enc");
+        File file = File.createTempFile("testFile", ".enc");
         System.out.println("writeFile");
         String password = "password";
         String cnt = "content";
@@ -63,5 +81,5 @@ public class CryptoFileTest {
         String decryptedContent = CryptoFile.readFile(file, password);
         assertEquals(cnt, decryptedContent);
     }
-    
+
 }
