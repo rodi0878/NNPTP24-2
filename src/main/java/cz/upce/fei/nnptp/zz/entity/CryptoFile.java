@@ -50,7 +50,9 @@ public class CryptoFile {
             Logger.getLogger(CryptoFile.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                fis.close();
+                if(fis != null){
+                    fis.close();
+                }
             } catch (IOException ex) {
                 Logger.getLogger(CryptoFile.class.getName()).log(Level.SEVERE, null, ex);
             }
