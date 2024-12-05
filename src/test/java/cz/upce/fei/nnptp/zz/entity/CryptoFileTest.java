@@ -37,6 +37,24 @@ public class CryptoFileTest {
 
     /**
      * Test of readFile method, of class CryptoFile.
+     *
+     * @throws java.io.IOException
+     */
+    @Test
+    public void testReadEmptyFile() throws IOException {
+        File emptyFile = File.createTempFile("emptyFile", ".txt");
+        emptyFile.deleteOnExit();
+
+        String password = "password";
+        String expResult = null;
+
+        String result = CryptoFile.readFile(emptyFile, password);
+
+        assertEquals(expResult, result, "Reading an empty file should return null");
+    }
+    
+    /**
+     * Test of readFile method, of class CryptoFile.
      */
     @Test
     public void testReadFile() {
