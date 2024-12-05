@@ -45,20 +45,15 @@ public class PasswordDatabase {
     }
     
     public Password findEntryByTitle(String title) {
-        for (Password password : passwords) {
-
-            if (!password.hasParameter(Parameter.StandardizedParameters.TITLE)){
-                continue;
-            }
-
-            Parameter.TextParameter titleParam = (Parameter.TextParameter)password.getParameter(Parameter.StandardizedParameters.TITLE);
-
-            if (titleParam.getValue().equals(title)){
-                return password;
-            }
-
-        }
-        return null;
+        return passwords.stream()
+                .filter(password -> password.hasParameter(Parameter.StandardizedParameters.TITLE))
+                .filter(password -> {
+                    Parameter.TextParameter titleParam =
+                            (Parameter.TextParameter) password.getParameter(Parameter.StandardizedParameters.TITLE);
+                    return title.equals(titleParam.getValue());
+                })
+                .findFirst()
+                .orElse(null);
     }
     
 }
