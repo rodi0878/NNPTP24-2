@@ -39,8 +39,8 @@ public class PasswordTest {
 
     @Test
     public void testPasswordValue() {
-        Password ppwd = new Password(0, "pass");
-        assertEquals("pass", ppwd.password(), "Password should match 'pass'");
+        Password password = new Password(0, "pass");
+        assertEquals("pass", password.password(), "Password should match 'pass'");
     }
 
     @Test
@@ -49,10 +49,10 @@ public class PasswordTest {
         PasswordParameter pwdParam = new PasswordParameter("secret123");
         parameters.put("key", pwdParam);
 
-        Password ppwd = new Password(0, "pass", parameters);
+        Password password = new Password(0, "pass", parameters);
 
-        assertTrue(ppwd.hasParameter("key"), "Parameter 'key' should exist");
-        assertFalse(ppwd.hasParameter("nonexistentKey"), "Parameter 'nonexistentKey' should not exist");
+        assertTrue(password.hasParameter("key"), "Parameter 'key' should exist");
+        assertFalse(password.hasParameter("nonexistentKey"), "Parameter 'nonexistentKey' should not exist");
     }
 
     @Test
@@ -61,9 +61,9 @@ public class PasswordTest {
         PasswordParameter pwdParam = new PasswordParameter("secret123");
         parameters.put("key", pwdParam);
 
-        Password ppwd = new Password(0, "pass", parameters);
+        Password password = new Password(0, "pass", parameters);
 
-        PasswordParameter retrievedParam = (PasswordParameter) ppwd.getParameter("key");
+        PasswordParameter retrievedParam = (PasswordParameter) password.getParameter("key");
         assertEquals("secret123", retrievedParam.getPassword(), "Parameter 'key' should return 'secret123' as its value");
     }
 
@@ -73,9 +73,9 @@ public class PasswordTest {
         TextParameter textParam = new TextParameter("textParamTest");
         parameters.put("textKey", textParam);
 
-        Password ppwd = new Password(0, "mainPass", parameters);
+        Password password = new Password(0, "mainPass", parameters);
 
-        TextParameter retrievedParam = (TextParameter) ppwd.getParameter("textKey");
+        TextParameter retrievedParam = (TextParameter) password.getParameter("textKey");
         assertEquals("textParamTest", retrievedParam.getValue(), "Parameter 'textKey' should return 'exampleText' as its value");
     }
 
@@ -86,9 +86,9 @@ public class PasswordTest {
         DateTimeParameter dateTimeParam = new DateTimeParameter(currentTime);
         parameters.put("dateKey", dateTimeParam);
 
-        Password ppwd = new Password(0, "mainPass", parameters);
+        Password password = new Password(0, "mainPass", parameters);
 
-        DateTimeParameter retrievedParam = (DateTimeParameter) ppwd.getParameter("dateKey");
+        DateTimeParameter retrievedParam = (DateTimeParameter) password.getParameter("dateKey");
         assertEquals(currentTime, retrievedParam.getValue(), "Parameter 'dateKey' should return the correct LocalDateTime value");
     }
 
@@ -106,15 +106,15 @@ public class PasswordTest {
         PasswordParameter pwdParam = new PasswordParameter("secret123");
         parameters.put("key", pwdParam);
 
-        Password ppwd = new Password(0, "mainPass", parameters);
+        Password password = new Password(0, "mainPass", parameters);
 
-        DateTimeParameter retrievedParamDate = (DateTimeParameter) ppwd.getParameter("dateKey");
+        DateTimeParameter retrievedParamDate = (DateTimeParameter) password.getParameter("dateKey");
         assertEquals(currentTime, retrievedParamDate.getValue(), "Parameter 'dateKey' should return the correct LocalDateTime value");
 
-        TextParameter retrievedParamText = (TextParameter) ppwd.getParameter("textKey");
+        TextParameter retrievedParamText = (TextParameter) password.getParameter("textKey");
         assertEquals("textParamTest", retrievedParamText.getValue(), "Parameter 'textKey' should return 'exampleText' as its value");
 
-        PasswordParameter retrievedParamPassword = (PasswordParameter) ppwd.getParameter("key");
+        PasswordParameter retrievedParamPassword = (PasswordParameter) password.getParameter("key");
         assertEquals("secret123", retrievedParamPassword.getPassword(), "Parameter 'key' should return 'secret123' as its value");
     }
 
