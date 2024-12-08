@@ -11,6 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @author Roman
  */
+
 public class CryptoFile {
     private static Cipher initializeCipher(String password, int mode) throws GeneralSecurityException {
         // Zajistíme, že heslo má přesně 8 bajtů
@@ -23,6 +24,7 @@ public class CryptoFile {
         cipher.init(mode, secretKey);
         return cipher;
     }
+
 
     public static String readFile(File file, String password) {
         try (FileInputStream fis = new FileInputStream(file);
