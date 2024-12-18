@@ -9,6 +9,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -96,5 +97,39 @@ class PasswordDatabaseTest {
 
         PasswordDatabaseException exception = assertThrows(PasswordDatabaseException.class, passwordDatabase::load);
         assertEquals("Failed to load data: file content is empty or cannot be decrypted.", exception.getMessage(), "Exception message does not match");
+    }
+
+    @Test
+    void testFindEntryByTitleFound() {
+        File testFile = new File(temporaryDirectory, "findEntryByTitleFound.txt");
+
+        PasswordDatabase passwordDatabase = new PasswordDatabase(testFile, "password");
+
+        HashMap<String, Parameter> parameters = new HashMap<>();
+        parameters.put(Parameter.StandardizedParameters.TITLE, new Parameter.TextParameter("test_value"));
+
+        Password password = new Password(1, "testPassword", parameters);
+        passwordDatabase.add(password);
+
+        Password result = passwordDatabase.findEntryByTitle("test_value");
+
+        assertNotNull(result, "Password should be found for the given title");
+        assertEquals(password, result, "The found password should match the added password");
+    }
+
+    @Test
+    void testFindEntryByTitleNotFound() {
+        File testFile = new File(temporaryDirectory, "findEntryByTitleNotFound.txt");
+
+        PasswordDatabase passwordDatabase = new PasswordDatabase(testFile, "password");
+
+        HashMap<String, Parameter> parameters = new HashMap<>();
+        parameters.put(Parameter.StandardizedParameters.TITLE, new Parameter.TextParameter("test_value"));
+        Password password = new Password(1, "testPassword", parameters);
+        passwordDatabase.add(password);
+
+        Password result = passwordDatabase.findEntryByTitle("someValue");
+
+        assertNull(result, "Password should not be found for a non-existent title");
     }
 }
