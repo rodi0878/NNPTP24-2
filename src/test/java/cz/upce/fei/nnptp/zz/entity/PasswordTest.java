@@ -18,24 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class PasswordTest {
 
-    public PasswordTest() {
-    }
-
-    @BeforeAll
-    public static void setUpClass() {
-    }
-
-    @AfterAll
-    public static void tearDownClass() {
-    }
-
-    @BeforeEach
-    public void setUp() {
-    }
-
-    @AfterEach
-    public void tearDown() {
-    }
 
     @Test
     public void testPasswordValue() {
