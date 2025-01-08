@@ -132,4 +132,30 @@ class PasswordDatabaseTest {
 
         assertNull(result, "Password should not be found for a non-existent title");
     }
+    @Test
+    void testPasswordCollectionBehavior() {
+        PasswordDatabase passwordDatabase = new PasswordDatabase(new File("dummyFile"), "dummyPassword");
+
+        assertTrue(passwordDatabase.getPasswords().isEmpty(), "Password list should be initially empty");
+
+        Password password1 = new Password(1, "testPassword1");
+        passwordDatabase.add(password1);
+        assertEquals(1, passwordDatabase.getPasswords().size(), "Password list size should be 1 after adding an element");
+        assertEquals(password1, passwordDatabase.getPasswords().get(0), "First password should match the added password");
+
+        Password password2 = new Password(2, "testPassword2");
+        passwordDatabase.add(password2);
+        assertEquals(2, passwordDatabase.getPasswords().size(), "Password list size should be 2 after adding another element");
+        assertEquals(password2, passwordDatabase.getPasswords().get(1), "Second password should match the added password");
+
+        List<Password> copiedPasswords = passwordDatabase.getPasswords();
+        copiedPasswords.remove(0);
+        assertEquals(2, passwordDatabase.getPasswords().size(), "Removing from the returned list should not affect the original list");
+
+        Password modifiedPassword = new Password(password1.id(), "modifiedPassword", password1.parameters());
+        passwordDatabase.add(modifiedPassword);
+
+        assertEquals(3, passwordDatabase.getPasswords().size(), "Password list size should be 3 after adding the modified password");
+        assertEquals("modifiedPassword", passwordDatabase.getPasswords().get(2).password(), "Modified password should be correctly added");
+    }
 }

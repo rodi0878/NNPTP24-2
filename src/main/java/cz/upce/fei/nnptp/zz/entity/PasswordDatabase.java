@@ -1,6 +1,7 @@
 package cz.upce.fei.nnptp.zz.entity;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,11 +19,11 @@ public class PasswordDatabase {
         this.file = file;
         this.password = password;
 
-        this.passwords = new LinkedList<>();
+        this.passwords = new ArrayList<>();
     }
 
     public List<Password> getPasswords() {
-        return passwords;
+        return new ArrayList<>(passwords);
     }
     
     public void load() throws PasswordDatabaseException {
