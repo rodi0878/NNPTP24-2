@@ -5,13 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- *
  * @author Roman
  */
 public class PasswordDatabase {
     private File file;
     private String password;
-    
+
     private List<Password> passwords;
 
     public PasswordDatabase(File file, String password) {
@@ -22,19 +21,23 @@ public class PasswordDatabase {
     }
 
     public List<Password> getPasswords() {
-        return passwords;
+        return new LinkedList<>(passwords);
     }
-    
+
     public void load() throws PasswordDatabaseException {
         String encryptedJson = CryptoFile.readFile(file, password);
-        
-        if (encryptedJson == null || encryptedJson.isEmpty()) {
+
+        if (isInvalidEncryptedData(encryptedJson)) {
             throw new PasswordDatabaseException("Failed to load data: file content is empty or cannot be decrypted.");
         }
-        
+
         passwords = new JsonConverter().fromJson(encryptedJson);
     }
-    
+
+    private boolean isInvalidEncryptedData(String encryptedJson) {
+        return encryptedJson == null || encryptedJson.isEmpty();
+    }
+
     public void save() {
         for (Password p : passwords) {
             for (Parameter param : p.parameters().values()) {
@@ -44,11 +47,11 @@ public class PasswordDatabase {
         String contents = new JsonConverter().toJson(passwords);
         CryptoFile.writeFile(file, password, contents);
     }
-    
+
     public void add(Password password) {
         passwords.add(password);
     }
-    
+
     public Password findEntryByTitle(String title) {
         return passwords.stream()
                 .filter(password -> password.hasParameter(Parameter.StandardizedParameters.TITLE))
@@ -60,5 +63,5 @@ public class PasswordDatabase {
                 .findFirst()
                 .orElse(null);
     }
-    
+
 }
